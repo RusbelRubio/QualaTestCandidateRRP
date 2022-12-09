@@ -19,7 +19,7 @@ namespace QualaTestCandidateRRP.Controllers
         public async Task<IActionResult> Index()
         {
             //assigning SelectListItem to view Bag for Coins
-            ViewBag.Monedas = _context.Monedas;
+            
             return View(await _context.Sedes.ToListAsync());
         }
 
@@ -44,6 +44,8 @@ namespace QualaTestCandidateRRP.Controllers
         // GET: Sedes/Create
         public IActionResult Create()
         {
+            var Monedas = _context.Monedas.Where(x => !String.IsNullOrEmpty(x.Nombre));
+            ViewBag.Monedas = Monedas.ToList();
             return View();
         }
 
@@ -70,7 +72,8 @@ namespace QualaTestCandidateRRP.Controllers
             {
                 return NotFound();
             }
-
+            var Monedas = _context.Monedas.Where(x => !String.IsNullOrEmpty(x.Nombre));
+            ViewBag.Monedas = Monedas.ToList();
             var sede = await _context.Sedes.FindAsync(id);
             if (sede == null)
             {
